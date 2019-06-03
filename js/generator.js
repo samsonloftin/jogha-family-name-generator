@@ -49,11 +49,6 @@ const connector = {
         return Math.floor(Math.random() * (max - 0) - 1);
     },
 
-    // Pushes the indexes into an array
-    pushIndex(item1, item2, item3, item4, item5, item6) {
-        return generator.newArrayIndex.push(item1, item2, item3, item4, item5, item6);
-    },
-
     // Catches undefined errors and omits them from the string
     redefine(item1, item2, item3, item4, item5, item6) {
         if (item1 == undefined) {
@@ -93,8 +88,7 @@ const connector = {
 
     randomizeName() {
         // Randomizes the Arrays setup in the generator
-        let indexArray = generator.newArrayIndex,
-            name01 = generator.name01,
+        let name01 = generator.name01,
             name02 = generator.name02,
             name03 = generator.name03,
             // Vowel sounds so name02 is used twice
@@ -112,47 +106,54 @@ const connector = {
             random06 = this.randomize(generator.name05.length),
             randomLast01 = this.randomize(generator.nameLast01.length),
             randomLast02 = this.randomize(generator.nameLast02.length),
-            lastNameLength = Math.random() * 3,
-            nameLength = Math.random() * 4,
-            nameArrayLength = Math.random() * 3,
+            indexArray,
+
+            // A collection of arrays to generate Jo into
+            letterArray,
+            letterArraySm,
+            letterArrayMd,
+            letterArrayLg,
+            letterArrayXl,
+
+            nameLength = Math.random() * 6,
+            joGenerate = Math.random() * 3,
+
             name,
             lastName,
             lastNameArray = [];
 
-            generator.newArrayIndex = [];
+        /* 
+         * Pushes all these random numbers into an Array builder to create the indexes
+         * for which the letters will be pulled from
+         */
+        indexArray = [random01, random02, random03, random04, random05, random06];
 
-            /* 
-             * Pushes all these random numbers into an Array builder to create the indexes
-             * for which the letters will be pulled from
-             */
-            this.pushIndex(random01, random02, random03, random04, random05, random06);
-
-            // Allows me to check if any of these are undefined and remove them
-            let indexArrayAgain = this.redefine(name01[indexArray[0]], name02[indexArray[1]], name03[indexArray[2]], name04[indexArray[3]], name05[indexArray[4]], name06[indexArray[5]]);
+        // Allows me to check if any of these are undefined and remove them
+        letterArray = this.redefine(name01[indexArray[0]], name02[indexArray[1]], name03[indexArray[2]], name04[indexArray[3]], name05[indexArray[4]], name06[indexArray[5]]);
+        letterArrayXl = letterArray.slice(0, 5);
+        letterArrayLg = letterArrayXl.slice(0, 4);
+        letterArrayMd = letterArrayLg.slice(0, 3);
+        letterArraySm = letterArrayMd.slice(0, 2);
 
         // Puts a name together based on the nameLength variable
+        // Also randomly places "jo" into the array
         if (nameLength < 3) {
-            name = indexArrayAgain[0] + indexArrayAgain[1] + indexArrayAgain[2] + indexArrayAgain[5];
-        } else if (nameLength <= 4) {
-            name = indexArrayAgain[0] + indexArrayAgain[1] + indexArrayAgain[2] + indexArrayAgain[3] + indexArrayAgain[5];
-        } else if (nameLength <= 6) {
-            name = indexArrayAgain[0] + indexArrayAgain[1] + indexArrayAgain[2] + indexArrayAgain[3] + indexArrayAgain[4] + indexArrayAgain[5];
+            name = letterArraySm.splice(joGenerate, 0, "jo");
+            name = letterArraySm[0] + letterArraySm[1] + letterArraySm[2]+ letterArray[5]
+        } else if (nameLength < 4) {
+            name = letterArrayMd.splice(joGenerate, 0, "jo");
+            name = letterArrayMd[0] + letterArrayMd[1] + letterArrayMd[2]+ letterArray[5]
+        } else if (nameLength >= 4) {
+            name = letterArrayLg.splice(joGenerate, 0, "jo");
+            name = letterArrayLg[0] + letterArrayLg[1] + letterArrayLg[2] + letterArrayLg[3]  + letterArray[5]
         }
 
-        /* 
-         * 1) Breaks apart the string into an array
-         * 2) Randomly places "jo" into the array
-         * 3) Joins everything back into a string
-         */
-        name = name.split('');
-        nameStr = name.splice(nameArrayLength, 0, "jo");
-        name = name.join('');
-
+        // Places "jo" randomly into the last name
         lastNameArray.push(nameLast01[randomLast01], nameLast02[randomLast02]);
-        lastNameStr = lastNameArray.splice(lastNameLength, 0, "jo");
+        lastNameStr = lastNameArray.splice(joGenerate, 0, "jo");
         lastName = lastNameArray.join('');
 
-        let fullName = name + " " + lastName;
+        let fullName = name + "<br>" + lastName;
 
         connector.setName(fullName);
         
@@ -192,7 +193,7 @@ const connector = {
         // Returns the new randomized name
         const name = connector.getName();
 
-        this.container.textContent = name;
+        this.container.innerHTML = name;
     }
  }
 

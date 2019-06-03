@@ -10,14 +10,19 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-content: space-around;
+    align-content: center;
     align-items: center;
 }
 
 #container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
     text-align: center;
     width: 75%;
-    height: 50px;
+    height: 100px;
     padding: 20px;
     background-color: rgb(35, 73, 51);
     color:white;
@@ -26,6 +31,7 @@ body {
     text-transform: uppercase;
     font-family: 'Comfortaa', cursive;
 }
+
 
 #randomize {
     margin: 20px;
