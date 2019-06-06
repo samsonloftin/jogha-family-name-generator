@@ -49,29 +49,6 @@ const connector = {
         return Math.floor(Math.random() * (max - 0) - 1);
     },
 
-    // Catches undefined errors and omits them from the string
-    redefine(item1, item2, item3, item4, item5, item6) {
-        if (item1 == undefined) {
-            item1 = '';
-        }
-        if (item2 == undefined) {
-            item2 = '';
-        }
-        if (item3 == undefined) {
-            item3 = '';
-        }
-        if (item4 == undefined) {
-            item4 = '';
-        }
-        if (item5 == undefined) {
-            item5 = '';
-        }
-        if (item6 == undefined) {
-            item6 = '';
-        }
-        return [item1, item2, item3, item4, item5, item6];
-    },
-
     // Randomize the Array (http://stackoverflow.com/a/2450976)
     randomizeArray(array) {
         let currentIndex = array.length, tempValue, randomIndex;
@@ -106,7 +83,7 @@ const connector = {
             random06 = this.randomize(generator.name05.length),
             randomLast01 = this.randomize(generator.nameLast01.length),
             randomLast02 = this.randomize(generator.nameLast02.length),
-            indexArray,
+            nameArray,
 
             // A collection of arrays to generate Jo into
             letterArray,
@@ -126,10 +103,16 @@ const connector = {
          * Pushes all these random numbers into an Array builder to create the indexes
          * for which the letters will be pulled from
          */
-        indexArray = [random01, random02, random03, random04, random05, random06];
+        nameArray = [name01[random01], name02[random02], name03[random03], name04[random04], name05[random05], name06[random06]];
 
         // Allows me to check if any of these are undefined and remove them
-        letterArray = this.redefine(name01[indexArray[0]], name02[indexArray[1]], name03[indexArray[2]], name04[indexArray[3]], name05[indexArray[4]], name06[indexArray[5]]);
+        letterArray = nameArray.map(x => {
+            if (x == undefined) {
+                x = '';
+            }
+            return x;
+        }); 
+
         letterArrayXl = letterArray.slice(0, 5);
         letterArrayLg = letterArrayXl.slice(0, 4);
         letterArrayMd = letterArrayLg.slice(0, 3);
