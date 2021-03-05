@@ -6,4 +6,4 @@ Everyone in Jogha family has a 'Jo' in the name. It's intention.
 
 ## Generate
 
-[Generate](https://www.samsonloftin.com/jogha-family-name-generator/)
+[Generate](https://samsonloftin.github.io/jogha-family-name-generator/)
